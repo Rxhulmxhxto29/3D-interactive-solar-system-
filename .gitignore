@@ -1,0 +1,47 @@
+# Ignore system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ignore editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Ignore backup files
+*.bak
+*.backup
+*~
+
+# Ignore log files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore node modules (if added later)
+node_modules/
+
+# Ignore temporary files
+tmp/
+temp/
+*.tmp
+
+# Ignore build folders (if added later)
+dist/
+build/
+
+# Keep images folder but ignore specific backups if needed
+# IMAGES/BACKUP/*
+
+# Ignore OS generated files
+ehthumbs.db
+.Spotlight-V100
+.Trashes
+._*
+
+# Ignore package manager files (if added later)
+package-lock.json
+yarn.lock

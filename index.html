@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3D Solar System</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	
+	
+	<script>$(document).ready(function(){
+			let flipFlop = false;
+
+			function changeButtonText() {
+				let button = $("#startStopButton");
+				if (flipFlop === false){
+					button.text("Stop Music");
+					flipFlop = true;
+				} else {
+					button.text("Start Music")
+					flipFlop = false;
+				}
+			}
+			$("#startStopButton").click(function(){
+			changeButtonText();
+		})
+	});</script>
+	
+	
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet">
+	
+</head>
+<body class="opening hide-UI view-2D zoom-large data-open controls-close">
+<div id="welcome-screen">
+    <div class="welcome-content">
+        <h1 class="welcome-title">Interactive Solar System</h1>
+        <p class="welcome-subtitle">Explore the wonders of our cosmic neighborhood</p>
+        <div class="welcome-features">
+            <div class="feature">🪐 Click planets for detailed information</div>
+            <div class="feature">🌍 Toggle Earth's day/night cycle</div>
+            <div class="feature">⭐ View constellation patterns</div>
+            <div class="feature">🗺️ Use mini-map for overview</div>
+            <div class="feature">📏 Compare planet sizes side-by-side</div>
+            <div class="feature">🌌 Rotating Milky Way background</div>
+            <div class="feature">☄️ Watch shooting stars, comets & meteor showers</div>
+        </div>
+        <button id="start-exploration" class="start-btn">Begin Exploration</button>
+    </div>
+</div>
+<canvas id="galaxies"></canvas>
+<canvas id="milkyway"></canvas>
+<canvas id="nebula"></canvas>
+<canvas id="stars"></canvas>
+<canvas id="constellations"></canvas>
+<canvas id="particles"></canvas>
+<canvas id="asteroids"></canvas>
+<audio id="solarSound" src="solar-system-music.mp3" preload="auto" loop></audio>
+<div id="navbar">
+    <a id="toggle-data" href="#data"><i class="icon-data"></i>Data</a>
+</div>
+<button id="controls-toggle-btn" class="floating-toggle-btn">
+    <span class="toggle-icon">⚙️</span>
+    <span class="toggle-text">Controls</span>
+</button>
+<div id="data">
+    <a class="sun" title="sun" href="#sunspeed">sun</a>
+    <a class="mercury" title="mercury" href="#mercuryspeed">mercury</a>
+    <a class="venus" title="venus" href="#venusspeed">venus</a>
+    <a class="earth active" title="earth" href="#earthspeed">earth</a>
+    <a class="mars" title="mars" href="#marsspeed">mars</a>
+    <a class="jupiter" title="jupiter" href="#jupiterspeed">jupiter</a>
+    <a class="saturn" title="saturn" href="#saturnspeed">saturn</a>
+    <a class="uranus" title="uranus" href="#uranusspeed">uranus</a>
+    <a class="neptune" title="neptune" href="#neptunespeed">neptune</a>
+</div>
+<div id="controls">
+    <button id="close-controls" class="close-controls-btn">&times;</button>
+    <h3 class="controls-header">Controls Panel</h3>
+    <button id="toggleView" class="control-btn view-btn">3D View</button>
+    <button id="toggleZoom" class="control-btn zoom-btn">Zoom In</button>
+    <button id="setSpeed" class="control-btn scale-btn active">Speed Scale</button>
+    <button id="setSize" class="control-btn scale-btn">Size Scale</button>
+    <button id="setDistance" class="control-btn scale-btn">Distance Scale</button>
+    <button id="startStopButton">Start Music</button>
+    <button id="toggleTrails" class="control-btn">Show Trails</button>
+    <button id="toggleEclipse" class="control-btn">Trigger Eclipse</button>
+    <button id="meteorShower" class="control-btn">Meteor Shower</button>
+    <button id="helpButton" class="control-btn">Help (H)</button>
+    <hr style="border: 1px solid rgba(0, 212, 255, 0.3); margin: 20px 0;">
+    <h4 style="color: #00d4ff; font-size: 16px; margin-bottom: 10px;">View Modes</h4>
+    <button id="toggleDayNight" class="control-btn">🌍 Day/Night Cycle</button>
+    <button id="toggleConstellations" class="control-btn">⭐ Constellations</button>
+    <button id="toggleMinimap" class="control-btn">🗺️ Mini-map</button>
+    <hr style="border: 1px solid rgba(0, 212, 255, 0.3); margin: 20px 0;">
+    <h4 style="color: #00d4ff; font-size: 16px; margin-bottom: 10px;">🎓 Learning Mode</h4>
+    <button id="toggleQuiz" class="control-btn">🧠 Start Quiz</button>
+    <button id="toggleMissions" class="control-btn">🎯 Learning Missions</button>
+    <button id="toggleComparison" class="control-btn">📏 Compare Planets</button>
+    <button id="toggleDistanceCalc" class="control-btn">📍 Distance Calculator</button>
+    <button id="toggleOrbitSpeed" class="control-btn">🚀 Orbit Speeds</button>
+    <button id="toggleGravity" class="control-btn">⚖️ Gravity Calculator</button>
+    <button id="toggleTemperature" class="control-btn">🌡️ Temperature Chart</button>
+    <button id="toggleTimeTravel" class="control-btn">⏱️ Time Travel</button>
+    <button id="toggleScale" class="control-btn">📊 Scale Model</button>
+    <button id="toggleNotes" class="control-btn">📝 My Notes</button>
+    <button id="toggleWorksheet" class="control-btn">📜 Worksheet</button>
+    <button id="toggleAchievements" class="control-btn">🏆 Achievements</button>
+    <hr style="border: 1px solid rgba(0, 212, 255, 0.3); margin: 20px 0;">
+    <h4 style="color: #00d4ff; font-size: 16px; margin-bottom: 10px;">🎮 Interactive Features</h4>
+    <button id="toggleQuizGames" class="control-btn">🎲 Quiz Games</button>
+    <button id="togglePlanetLayers" class="control-btn">🔬 Planet Layers</button>
+    <button id="toggleSounds" class="control-btn">🔊 Sound Effects</button>
+    <button id="toggleChallenges" class="control-btn">🎯 Challenges</button>
+    <button id="toggleSocial" class="control-btn">👥 Leaderboard</button>
+</div>
+<div id="perf-stats">
+    <div class="stats-header">Performance Monitor</div>
+    <div><span class="label">FPS:</span><span class="value" id="fps">60</span></div>
+    <div><span class="label">Render Time:</span><span class="value" id="render-time">0ms</span></div>
+    <div><span class="label">Memory:</span><span class="value" id="memory-usage">--</span></div>
+    <div><span class="label">Canvas Active:</span><span class="value" id="canvas-count">7</span></div>
+    <div><span class="label">Asteroids:</span><span class="value" id="asteroid-count">150</span></div>
+    <div><span class="label">Stars:</span><span class="value" id="star-count">200</span></div>
+    <div><span class="label">Active Objects:</span><span class="value" id="active-objects">0</span></div>
+    <div><span class="label">Rotation Speed:</span><span class="value" id="rotation-speed">1x</span></div>
+</div>
+<div id="help-overlay" class="help-hidden">
+    <div class="help-content">
+        <button id="close-help" class="close-btn">&times;</button>
+        <h2>Interactive Solar System</h2>
+        <h3 style="color: #00d4ff;">Mouse Controls</h3>
+        <div class="shortcut"><span class="key">Click</span> View planet details</div>
+        <div class="shortcut"><span class="key">Hover</span> See planet glow & tooltip</div>
+        <div class="shortcut"><span class="key">Move</span> Parallax depth effect</div>
+        <h3 style="margin-top: 30px; color: #00d4ff;">Features</h3>
+        <div class="shortcut"><span class="key">🎓</span> Learning Mode - Quiz, Missions, Calculators</div>
+        <div class="shortcut"><span class="key">🎮</span> Interactive Games - Guess & Memory Match</div>
+        <div class="shortcut"><span class="key">🔊</span> Unique Planet Sounds</div>
+        <div class="shortcut"><span class="key">🏆</span> Achievement System</div>
+    </div>
+</div>
+<div id="info-panel" class="info-panel-closed">
+    <button id="close-info" class="close-btn">&times;</button>
+    <div id="info-content">
+        <h2 id="info-title">Select a Planet</h2>
+        <div id="info-details">
+            <p>Click on any planet to view detailed information</p>
+        </div>
+    </div>
+</div>
+<div id="minimap" class="minimap-hidden">
+    <div class="minimap-title">Solar System Overview</div>
+    <canvas id="minimap-canvas"></canvas>
+</div>
+<div id="quiz-panel" class="quiz-hidden">
+    <button class="close-btn" id="close-quiz">&times;</button>
+    <div class="quiz-content">
+        <h2>🧠 Solar System Quiz</h2>
+        <div id="quiz-score">Score: <span id="score-value">0</span> / <span id="total-questions">0</span></div>
+        <div id="quiz-question-container">
+            <h3 id="quiz-question">Click 'Next Question' to start!</h3>
+            <div id="quiz-options"></div>
+            <button id="quiz-next" class="quiz-btn">Next Question</button>
+            <div id="quiz-feedback"></div>
+        </div>
+    </div>
+</div>
+<div id="distance-panel" class="distance-hidden">
+    <button class="close-btn" id="close-distance">&times;</button>
+    <h2>📏 Distance from Earth Calculator</h2>
+    <div class="distance-content">
+        <div class="distance-explanation">
+            <p>Distances are calculated in real-time based on current orbital positions.</p>
+        </div>
+        <div id="distance-list"></div>
+    </div>
+</div>
+<div id="orbit-speed-panel" class="orbit-speed-hidden">
+    <button class="close-btn" id="close-orbit-speed">&times;</button>
+    <h2>🚀 Orbital Velocities</h2>
+    <div class="orbit-speed-content">
+        <div class="speed-explanation">
+            <p>Planets closer to the Sun travel faster due to stronger gravitational pull.</p>
+        </div>
+        <div id="orbit-speed-list"></div>
+    </div>
+</div>
+<div id="missions-panel" class="missions-hidden">
+    <button class="close-btn" id="close-missions">&times;</button>
+    <h2>🎯 Learning Missions</h2>
+    <div id="mission-progress">Missions Completed: <span id="missions-completed">0</span> / <span id="total-missions">5</span></div>
+    <div id="missions-list"></div>
+</div>
+<div id="comparison-table-panel" class="comparison-table-hidden">
+    <button class="close-btn" id="close-comparison-table">&times;</button>
+    <h2>📏 Planet Facts Comparison</h2>
+    <div class="table-container">
+        <table id="planet-comparison-table"></table>
+    </div>
+</div>
+<div id="gravity-panel" class="gravity-hidden">
+    <button class="close-btn" id="close-gravity">&times;</button>
+    <h2>⚖️ Your Weight on Other Planets</h2>
+    <div class="gravity-content">
+        <div class="weight-input-container">
+            <label for="weight-input">Enter your weight on Earth:</label>
+            <input type="number" id="weight-input" placeholder="70" min="1" max="500" />
+            <select id="weight-unit">
+                <option value="kg">kg</option>
+                <option value="lbs">lbs</option>
+            </select>
+            <button id="calculate-weight" class="quiz-btn">Calculate</button>
+        </div>
+        <div id="gravity-results"></div>
+    </div>
+</div>
+<div id="temperature-panel" class="temperature-hidden">
+    <button class="close-btn" id="close-temperature">&times;</button>
+    <h2>🌡️ Planet Temperature Comparison</h2>
+    <div class="temperature-content">
+        <div id="temperature-chart"></div>
+    </div>
+</div>
+<div id="time-travel-panel" class="time-travel-hidden">
+    <button class="close-btn" id="close-time-travel">&times;</button>
+    <h2>⏱️ Time Travel Mode</h2>
+    <div class="time-travel-content">
+        <div class="date-selector">
+            <label>Select a date to see planetary positions:</label>
+            <input type="date" id="time-travel-date" />
+            <button id="apply-time-travel" class="quiz-btn">Travel to Date</button>
+        </div>
+        <div class="preset-dates">
+            <h3>Historical Events:</h3>
+            <button class="preset-btn" data-date="1969-07-20">Moon Landing (1969)</button>
+            <button class="preset-btn" data-date="1990-04-24">Hubble Launch (1990)</button>
+            <button class="preset-btn" data-date="2004-01-04">Mars Rover Landing (2004)</button>
+            <button class="preset-btn" data-date="2015-07-14">Pluto Flyby (2015)</button>
+        </div>
+        <div id="time-travel-info"></div>
+    </div>
+</div>
+<div id="scale-panel" class="scale-hidden">
+    <button class="close-btn" id="close-scale">&times;</button>
+    <h2>📊 Scale Model Calculator</h2>
+    <div class="scale-content">
+        <div class="scale-explanation">
+            <p>If Earth was the size of a common object, how big would other planets be?</p>
+        </div>
+        <div class="scale-selector">
+            <label>Make Earth the size of:</label>
+            <select id="earth-scale">
+                <option value="tennis">Tennis Ball (6.7 cm)</option>
+                <option value="basketball">Basketball (24 cm)</option>
+                <option value="beach">Beach Ball (50 cm)</option>
+                <option value="soccer">Soccer Ball (22 cm)</option>
+            </select>
+        </div>
+        <div id="scale-results"></div>
+    </div>
+</div>
+<div id="notes-panel" class="notes-hidden">
+    <button class="close-btn" id="close-notes">&times;</button>
+    <h2>📝 My Study Notes</h2>
+    <div class="notes-content">
+        <div class="notes-selector">
+            <label>Select Planet:</label>
+            <select id="notes-planet-select">
+                <option value="general">General Notes</option>
+                <option value="mercury">Mercury</option>
+                <option value="venus">Venus</option>
+                <option value="earth">Earth</option>
+                <option value="mars">Mars</option>
+                <option value="jupiter">Jupiter</option>
+                <option value="saturn">Saturn</option>
+                <option value="uranus">Uranus</option>
+                <option value="neptune">Neptune</option>
+            </select>
+        </div>
+        <textarea id="notes-text" placeholder="Write your notes here..."></textarea>
+        <button id="save-notes" class="quiz-btn">Save Notes</button>
+        <div id="notes-status"></div>
+    </div>
+</div>
+<div id="worksheet-panel" class="worksheet-hidden">
+    <button class="close-btn" id="close-worksheet">&times;</button>
+    <h2>📜 Planet Worksheet Generator</h2>
+    <div class="worksheet-content">
+        <div class="worksheet-options">
+            <h3>Select Content:</h3>
+            <label><input type="checkbox" class="worksheet-option" value="facts" checked> Planet Facts</label>
+            <label><input type="checkbox" class="worksheet-option" value="quiz"> Quiz Questions</label>
+            <label><input type="checkbox" class="worksheet-option" value="diagram"> Solar System Diagram</label>
+            <label><input type="checkbox" class="worksheet-option" value="comparison"> Comparison Table</label>
+        </div>
+        <button id="generate-worksheet" class="quiz-btn">Generate Worksheet</button>
+        <button id="print-worksheet" class="quiz-btn" style="display:none;">Print Worksheet</button>
+        <div id="worksheet-preview"></div>
+    </div>
+</div>
+<div id="achievements-panel" class="achievements-hidden">
+    <button class="close-btn" id="close-achievements">&times;</button>
+    <h2>🏆 Your Achievements</h2>
+    <div class="achievements-content">
+        <div id="achievement-progress">
+            <div class="progress-bar-container">
+                <div id="achievement-progress-bar"></div>
+            </div>
+            <p><span id="achievements-earned">0</span> / <span id="total-achievements">10</span> Achievements Unlocked</p>
+        </div>
+        <div id="achievements-grid"></div>
+    </div>
+</div>
+<div id="comparison-panel" class="comparison-hidden">
+    <button class="close-btn" id="close-comparison">&times;</button>
+    <h2>Planet Size Comparison</h2>
+    <div class="comparison-container">
+        <div class="comparison-item" data-size="0.38"><div class="comp-planet mercury-comp"></div><p>Mercury<br>0.38x Earth</p></div>
+        <div class="comparison-item" data-size="0.95"><div class="comp-planet venus-comp"></div><p>Venus<br>0.95x Earth</p></div>
+        <div class="comparison-item" data-size="1.0"><div class="comp-planet earth-comp"></div><p>Earth<br>1.0x</p></div>
+        <div class="comparison-item" data-size="0.53"><div class="comp-planet mars-comp"></div><p>Mars<br>0.53x Earth</p></div>
+        <div class="comparison-item" data-size="11.2"><div class="comp-planet jupiter-comp"></div><p>Jupiter<br>11.2x Earth</p></div>
+        <div class="comparison-item" data-size="9.45"><div class="comp-planet saturn-comp"></div><p>Saturn<br>9.45x Earth</p></div>
+        <div class="comparison-item" data-size="4.0"><div class="comp-planet uranus-comp"></div><p>Uranus<br>4.0x Earth</p></div>
+        <div class="comparison-item" data-size="3.88"><div class="comp-planet neptune-comp"></div><p>Neptune<br>3.88x Earth</p></div>
+    </div>
+</div>
+<div id="universe" class="scale-stretched">
+    <div id="galaxy">
+        <div id="comet">
+            <div class="comet-core"></div>
+            <div class="comet-tail"></div>
+        </div>
+        <div id="solar-system" class="earth">
+            <div id="mercury" class="orbit">
+                <div class="pos">
+                    <div class="planet" data-planet="mercury">
+                        <div class="planet-glow"></div>
+                        <div class="tooltip">
+                            <h3>Mercury</h3>
+                            <p>Smallest planet, closest to the Sun</p>
+                            <p>Temperature: -173°C to 427°C</p>
+                            <p>Surface: Rocky and cratered</p>
+                        </div>
+                        <dl class="infos">
+                            <dt>mercury</dt>
+                            <dd><span></span></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div id="venus" class="orbit">
+                <div class="pos">
+                    <div class="planet" data-planet="venus">
+                        <div class="planet-glow"></div>
+                        <div class="tooltip">
+                            <h3>Venus</h3>
+                            <p>Hottest planet in our solar system</p>
+                            <p>Temperature: 462°C (864°F)</p>
+                            <p>Surface: Volcanic plains</p>
+                        </div>
+                        <dl class="infos">
+                            <dt>venus</dt>
+                            <dd><span></span></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div id="earth" class="orbit">
+                <div class="pos">
+                    <div class="orbit satellite-orbit-1">
+                        <div class="pos">
+                            <div class="satellite satellite-iss"></div>
+                        </div>
+                    </div>
+                    <div class="orbit satellite-orbit-2">
+                        <div class="pos">
+                            <div class="satellite satellite-hubble"></div>
+                        </div>
+                    </div>
+                    <div class="orbit satellite-orbit-3">
+                        <div class="pos">
+                            <div class="satellite satellite-comm"></div>
+                        </div>
+                    </div>
+                    <div class="orbit">
+                        <div class="pos">
+                            <div class="moon"></div>
+                        </div>
+                    </div>
+                    <div class="orbit moon-orbit">
+                        <div class="pos">
+                            <div class="moon" data-moon="moon">
+                                <div class="tooltip">
+                                    <h3>Moon</h3>
+                                    <p>Earth's natural satellite</p>
+                                    <p>Temperature: -173°C to 127°C</p>
+                                    <p>Orbit: 27.3 days</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="planet" data-planet="earth">
+                        <div class="day-night-overlay"></div>
+                        <div class="tooltip">
+                            <h3>Earth</h3>
+                            <p>Our home, the only known habitable planet</p>
+                            <p>Temperature: -88°C to 58°C</p>
+                            <p>71% water, 29% land</p>
+                        </div>
+                        <dl class="infos">
+                            <dt>earth</dt>
+                            <dd><span></span></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div id="mars" class="orbit">
+                <div class="pos">
+                    <div class="planet" data-planet="mars">
+                        <div class="planet-glow"></div>
+                        <div class="tooltip">
+                            <h3>Mars</h3>
+                            <p>The Red Planet</p>
+                            <p>Temperature: -125°C to 20°C</p>
+                            <p>Home to Olympus Mons, tallest volcano</p>
+                        </div>
+                        <dl class="infos">
+                            <dt>mars</dt>
+                            <dd><span></span></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div id="jupiter" class="orbit">
+                <div class="pos">
+                    <div class="orbit satellite-orbit-jupiter">
+                        <div class="pos">
+                            <div class="satellite satellite-probe"></div>
+                        </div>
+                    </div>
+                    <div class="planet" data-planet="jupiter">
+                        <div class="planet-glow"></div>
+                        <div class="tooltip">
+                            <h3>Jupiter</h3>
+                            <p>Largest planet in our solar system</p>
+                            <p>Famous for its Great Red Spot</p>
+                            <p>Has 79+ moons</p>
+                        </div>
+                        <dl class="infos">
+                            <dt>jupiter</dt>
+                            <dd><span></span></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div id="saturn" class="orbit">
+                <div class="pos">
+                    <div class="orbit satellite-orbit-saturn">
+                        <div class="pos">
+                            <div class="satellite satellite-cassini"></div>
+                        </div>
+                    </div>
+                    <div class="planet" data-planet="saturn">
+                        <div class="ring"></div>
+                        <div class="planet-glow"></div>
+                        <div class="tooltip">
+                            <h3>Saturn</h3>
+                            <p>Known for its magnificent ring system</p>
+                            <p>Made mostly of hydrogen and helium</p>
+                            <p>Has 82+ moons</p>
+                        </div>
+                        <dl class="infos">
+                            <dt>saturn</dt>
+                            <dd><span></span></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div id="uranus" class="orbit">
+                <div class="pos">
+                    <div class="planet" data-planet="uranus">
+                        <div class="planet-glow"></div>
+                        <div class="tooltip">
+                            <h3>Uranus</h3>
+                            <p>The ice giant that rotates on its side</p>
+                            <p>Temperature: -224°C</p>
+                            <p>Has 27 known moons</p>
+                        </div>
+                        <dl class="infos">
+                            <dt>uranus</dt>
+                            <dd><span></span></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div id="neptune" class="orbit">
+                <div class="pos">
+                    <div class="planet" data-planet="neptune">
+                        <div class="planet-glow"></div>
+                        <div class="tooltip">
+                            <h3>Neptune</h3>
+                            <p>Farthest planet from the Sun</p>
+                            <p>Fastest winds in the solar system</p>
+                            <p>Deep blue color from methane</p>
+                        </div>
+                        <dl class="infos">
+                            <dt>neptune</dt>
+                            <dd><span></span></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div id="sun">
+                <div class="sun-corona"></div>
+                <div class="sun-flare"></div>
+                <div class="tooltip">
+                    <h3>The Sun</h3>
+                    <p>Center of our solar system</p>
+                    <p>Temperature: 5,500°C surface, 15M°C core</p>
+                    <p>Makes up 99.86% of solar system's mass</p>
+                </div>
+                <dl class="infos">
+                    <dt>sun</dt>
+                    <dd><span></span></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quiz Games Panel -->
+<div id="quiz-games-panel" class="quiz-games-hidden">
+    <button id="close-quiz-games" class="close-btn">&times;</button>
+    <h2>🎲 Quiz Games</h2>
+    <div id="game-modes">
+        <button id="guess-planet-game" class="game-mode-btn">🔮 Guess the Planet</button>
+        <button id="memory-game" class="game-mode-btn">🧩 Memory Match</button>
+    </div>
+    <div id="game-container">
+        <div id="guess-game" class="game-content" style="display:none;">
+            <div id="guess-clue" class="clue-text"></div>
+            <div id="guess-options" class="guess-options"></div>
+            <div id="guess-result" class="game-result"></div>
+            <div id="guess-score">Score: <span id="guess-score-value">0</span> / <span id="guess-total">0</span></div>
+        </div>
+        <div id="memory-game-content" class="game-content" style="display:none;">
+            <div id="memory-grid" class="memory-grid"></div>
+            <div id="memory-stats">
+                <span>Moves: <span id="memory-moves">0</span></span>
+                <span style="margin-left: 20px;">Pairs: <span id="memory-pairs">0</span>/8</span>
+            </div>
+            <button id="start-memory-game" class="game-action-btn">New Game</button>
+        </div>
+    </div>
+</div>
+
+<!-- Planet Layers Panel -->
+<div id="planet-layers-panel" class="planet-layers-hidden">
+    <button id="close-planet-layers" class="close-btn">&times;</button>
+    <h2>🔬 Planet Internal Layers</h2>
+    <div id="layer-planet-select-container">
+        <label>Select Planet:</label>
+        <select id="layer-planet-select">
+            <option value="earth">Earth</option>
+            <option value="mars">Mars</option>
+            <option value="jupiter">Jupiter</option>
+            <option value="saturn">Saturn</option>
+        </select>
+    </div>
+    <div id="planet-layers-display">
+        <div id="layer-visualization" class="layer-viz">
+            <canvas id="layer-canvas" width="400" height="400"></canvas>
+        </div>
+        <div id="layer-controls">
+            <label><input type="checkbox" class="layer-toggle" data-layer="core" checked> Core</label>
+            <label><input type="checkbox" class="layer-toggle" data-layer="mantle" checked> Mantle</label>
+            <label><input type="checkbox" class="layer-toggle" data-layer="crust" checked> Crust</label>
+            <label><input type="checkbox" class="layer-toggle" data-layer="atmosphere" checked> Atmosphere</label>
+        </div>
+        <div id="layer-info">
+            <h3 id="layer-info-title">Layer Information</h3>
+            <div id="layer-info-content"></div>
+        </div>
+    </div>
+    <div id="rotate-controls">
+        <label>Drag to rotate • Mouse wheel to zoom</label>
+    </div>
+</div>
+
+<!-- Sound Effects Panel -->
+<div id="sounds-panel" class="sounds-hidden">
+    <button id="close-sounds" class="close-btn">&times;</button>
+    <h2>🔊 Sound Effects & Ambience</h2>
+    <div id="sound-controls">
+        <div class="sound-control-item">
+            <label>Master Volume</label>
+            <input type="range" id="master-volume" min="0" max="100" value="70">
+            <span id="master-volume-value">70%</span>
+        </div>
+        <div class="sound-control-item">
+            <label>🌍 Planet Sounds</label>
+            <input type="checkbox" id="planet-sounds" checked>
+            <span class="sound-desc">Unique sound when clicking each planet</span>
+        </div>
+        <div class="sound-control-item">
+            <label>☄️ Meteor Sounds</label>
+            <input type="checkbox" id="meteor-sounds" checked>
+            <span class="sound-desc">Whoosh sound during meteor showers</span>
+        </div>
+        <div class="sound-control-item">
+            <label>🌌 Ambient Space</label>
+            <input type="checkbox" id="ambient-sounds" checked>
+            <span class="sound-desc">Background space atmosphere</span>
+        </div>
+        <div class="sound-control-item">
+            <label>🎯 Achievement Sounds</label>
+            <input type="checkbox" id="achievement-sounds" checked>
+            <span class="sound-desc">Sound when unlocking achievements</span>
+        </div>
+    </div>
+    <div id="planet-sound-test">
+        <h3>Test Planet Sounds</h3>
+        <div id="sound-test-buttons">
+            <button class="sound-test-btn" data-planet="mercury">Mercury</button>
+            <button class="sound-test-btn" data-planet="venus">Venus</button>
+            <button class="sound-test-btn" data-planet="earth">Earth</button>
+            <button class="sound-test-btn" data-planet="mars">Mars</button>
+            <button class="sound-test-btn" data-planet="jupiter">Jupiter</button>
+            <button class="sound-test-btn" data-planet="saturn">Saturn</button>
+            <button class="sound-test-btn" data-planet="uranus">Uranus</button>
+            <button class="sound-test-btn" data-planet="neptune">Neptune</button>
+        </div>
+    </div>
+</div>
+
+<!-- Student Challenges Panel -->
+<div id="challenges-panel" class="challenges-hidden">
+    <button id="close-challenges" class="close-btn">&times;</button>
+    <h2>🎯 Student Challenges</h2>
+    <div id="challenges-list">
+        <div class="challenge-item" data-challenge="asteroid-belt">
+            <div class="challenge-header">
+                <span class="challenge-icon">☄️</span>
+                <h3>Find the Asteroid Belt</h3>
+                <span class="challenge-status">Not Started</span>
+            </div>
+            <p class="challenge-description">Locate the asteroid belt between Mars and Jupiter. Click on 5 asteroids to complete.</p>
+            <div class="challenge-progress">
+                <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+                <span class="progress-text">0/5 Asteroids Found</span>
+            </div>
+        </div>
+        <div class="challenge-item" data-challenge="dwarf-planets">
+            <div class="challenge-header">
+                <span class="challenge-icon">🪐</span>
+                <h3>Discover Dwarf Planets</h3>
+                <span class="challenge-status">Not Started</span>
+            </div>
+            <p class="challenge-description">Find and learn about Pluto, Ceres, and other dwarf planets in our solar system.</p>
+            <div class="challenge-progress">
+                <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+                <span class="progress-text">0/3 Dwarf Planets Found</span>
+            </div>
+        </div>
+        <div class="challenge-item" data-challenge="spacecraft">
+            <div class="challenge-header">
+                <span class="challenge-icon">🛸</span>
+                <h3>Track Famous Spacecraft</h3>
+                <span class="challenge-status">Not Started</span>
+            </div>
+            <p class="challenge-description">Spot Voyager 1, Voyager 2, and New Horizons spacecraft in their journeys.</p>
+            <div class="challenge-progress">
+                <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+                <span class="progress-text">0/3 Spacecraft Located</span>
+            </div>
+        </div>
+    </div>
+    <div id="challenges-rewards">
+        <h3>🏆 Challenge Rewards</h3>
+        <div id="rewards-earned">Complete challenges to earn special badges!</div>
+    </div>
+</div>
+
+<!-- Social Features / Leaderboard Panel -->
+<div id="social-panel" class="social-hidden">
+    <button id="close-social" class="close-btn">&times;</button>
+    <h2>👥 Leaderboard & Social</h2>
+    <div id="favorite-planet-section">
+        <h3>⭐ Your Favorite Planet</h3>
+        <select id="favorite-planet-select">
+            <option value="">Choose your favorite...</option>
+            <option value="mercury">Mercury</option>
+            <option value="venus">Venus</option>
+            <option value="earth">Earth</option>
+            <option value="mars">Mars</option>
+            <option value="jupiter">Jupiter</option>
+            <option value="saturn">Saturn</option>
+            <option value="uranus">Uranus</option>
+            <option value="neptune">Neptune</option>
+        </select>
+        <button id="save-favorite" class="social-action-btn">Save Favorite</button>
+        <div id="favorite-display"></div>
+    </div>
+    <div id="leaderboard-section">
+        <h3>🏆 Top Explorers</h3>
+        <div id="leaderboard-tabs">
+            <button class="leaderboard-tab active" data-tab="quiz">Quiz Masters</button>
+            <button class="leaderboard-tab" data-tab="achievements">Most Achievements</button>
+            <button class="leaderboard-tab" data-tab="exploration">Exploration Time</button>
+        </div>
+        <div id="leaderboard-content">
+            <table id="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Student</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                    <tr><td>1</td><td>You</td><td>0</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="share-section">
+        <h3>📤 Share Your Progress</h3>
+        <div id="share-stats">
+            <div class="stat-item">Planets Visited: <span id="share-planets">0</span></div>
+            <div class="stat-item">Achievements: <span id="share-achievements">0</span>/10</div>
+            <div class="stat-item">Quiz Score: <span id="share-quiz">0</span>%</div>
+        </div>
+        <button id="generate-share-code" class="social-action-btn">Generate Share Code</button>
+        <div id="share-code-display"></div>
+    </div>
+</div>
+
+</body>
+<script rel="script" src="script.js"></script>
+</body>
+</html>
