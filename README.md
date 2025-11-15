@@ -10,7 +10,7 @@ An immersive, educational 3D solar system visualization built with HTML5, CSS3, 
 
 ## 🚀 Live Demo
 
-**[View Live Demo →](https://rxhulmxhxto29.github.io/3D-interactive-solar-system-/New%20folder/)**
+**[View Live Demo →](https://rxhulmxhxto29.github.io/3D-interactive-solar-system-/New%20folder/index.html)**
 
 ## ✨ Features
 
